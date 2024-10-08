@@ -19,6 +19,7 @@ app.get("/", (req, res) => {
 })
 
 app.post("/createPreference", async (req, res) => {
+    console.log(req.body)
     try {
         const body = {
             items: [
