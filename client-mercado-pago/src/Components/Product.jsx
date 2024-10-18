@@ -10,18 +10,18 @@ export default function Product() {
 
   const [preferenceId, setPreferenceId] = useState(null);
 
-  initMercadoPago('APP_USR-75643dad-afb7-445d-903a-b5d480d3db50', {
+  initMercadoPago('APP_USR-5ba67a6f-01d5-496b-b027-47e29a394849', {
     // En que idioma se hace el boton de pago
-    locale: "es-AR"
+    locale: "es-CO"
 
   });
 
   const createPreference = async () => { 
     try {
-      const response = await axios.post("http://localhost:3000/createPreference", {
-        title: "Nike Air MX Super 2500 - Red",
+      const response = await axios.post("http://localhost:8080/create-preference", {
+        name: "Zapato",
         quantity: 1,
-        price: 699,
+        unitPrice: 699,
       }); 
   
       const { id } = response.data;
