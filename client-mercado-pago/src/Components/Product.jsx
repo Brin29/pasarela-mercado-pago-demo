@@ -21,11 +21,12 @@ export default function Product() {
       const response = await axios.post("http://localhost:8080/create-preference", {
         name: "Zapato",
         quantity: 1,
-        unitPrice: 699,
+        unitPrice: 10000,
       }); 
-  
-      const { id } = response.data;
-      return id;
+      
+      const dataPreference = response.data;
+      console.log(response)
+      return dataPreference;
     }
     catch(err) {
       console.error(err);
