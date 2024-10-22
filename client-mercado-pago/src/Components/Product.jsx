@@ -10,7 +10,7 @@ export default function Product() {
 
   const [preferenceId, setPreferenceId] = useState(null);
 
-  initMercadoPago('APP_USR-5ba67a6f-01d5-496b-b027-47e29a394849', {
+  initMercadoPago('APP_USR-a857542e-befd-4d06-bd82-fbc571b246fc', {
     // En que idioma se hace el boton de pago
     locale: "es-CO"
 
@@ -21,11 +21,10 @@ export default function Product() {
       const response = await axios.post("http://localhost:8080/create-preference", {
         name: "Zapato",
         quantity: 1,
-        unitPrice: 10000,
+        unitPrice: 1000,
       }); 
       
       const dataPreference = response.data;
-      console.log(response)
       return dataPreference;
     }
     catch(err) {

@@ -5,7 +5,7 @@ import { MercadoPagoConfig, Preference } from "mercadopago";
 
 // Agrega credenciales
 const client = new MercadoPagoConfig({
-     accessToken: "APP_USR-5973245531264106-100816-ef497159852a79201dd70d935c5b8f36-1017499700",
+     accessToken: "APP_USR-5876905873483712-102017-ba46c0be34f4b6268ec22fc73c7c3499-2030282465",
     })
 
 const app = express();
@@ -19,24 +19,24 @@ app.get("/", (req, res) => {
 })
 
 app.post("/createPreference", async (req, res) => {
-    console.log(req.body)
     try {
         const body = {
             items: [
                 {
                     title: req.body.title,
                     quantity: Number(req.body.quantity),
-                    unit_price: Number(req.body.price),
-                    currency_id: "ARS", 
+                    unit_price: Number(req.body.unitPrice),
+                    currency_id: "COL", 
                 },
             ],
             back_urls: {
-                success: "https://www.youtube.com/watch?v=Yd4IB4b9Lwk",
-                failure: "https://www.youtube.com/watch?v=Yd4IB4b9Lwk",
-                pending: "https://www.youtube.com/watch?v=Yd4IB4b9Lwk",
+                success: "https://www.google.com",
+                failure: "https://www.youtube.com",
+                pending: "https://www.netflix.com",
             },
             // despues del pago se devuelve
             auto_return: "approved",
+            notification_url: "https://4795-186-183-200-125.ngrok-free.app/webhook"
         };
 
         const preference = new Preference(client);
@@ -52,6 +52,33 @@ app.post("/createPreference", async (req, res) => {
         });
     }
 });
+
+// Ruta para recibir el webhook
+app.post("/webhook", async function (req, res){
+    const paymentId = req.query.id;
+    try {
+        const response = await fetch(`https://api.mercadopago.com/v1/payments/${paymentId}`, {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${client.accessToken}`
+            }
+        });
+        if (response.ok){
+            const data = await response.json();
+            console.log(data)
+        }
+
+        res.sendStatus(200);
+
+    } catch (error) {
+        
+        console.error("Error:", error);
+        res.sendStatus(500)
+
+    }
+})
+
+// url de donde se recibe la notificacion
 
 app.listen(port, () => {
     console.log(`El servidor esta corriendo en el puerto ${port} `)
